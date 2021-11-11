@@ -1,21 +1,18 @@
+# MidPoint Circle Generation Algorithm
+
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
 
-
 def init():
     glClearColor(1, 1, 1, 0)
-    glMatrixMode(GL_PROJECTION)
-    glLoadIdentity()
     gluOrtho2D(-100.0, 100.0, -100.0, 100.0)
-
 
 def draw():
     glClear(GL_COLOR_BUFFER_BIT)
     MidpointCircleAlgo()
     glFlush()
-
 
 def MidpointCircleAlgo():
     x = 0
@@ -57,16 +54,12 @@ def MidpointCircleAlgo():
             plot(y+xc, -x+xc)  
             plot(-y+xc, -x+xc) 
 
-# def circle(xc, yc, r):
-
-
 def plot(x, y):
-    glColor3f(1.0, 0.0, 0.0)
+    glColor3f(0.0, 1.0, 0.0)
     glPointSize(2.0)
     glBegin(GL_POINTS)
-    glVertex2i(x + xc, y + yc)
+    glVertex2i(x, y)
     glEnd()
-    
     
 def getInput():
     global r, xc, yc
@@ -84,6 +77,5 @@ def main():
     glutDisplayFunc(draw)
     init()
     glutMainLoop()
-
 
 main()
