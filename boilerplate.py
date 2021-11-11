@@ -1,9 +1,9 @@
 # Importing everything from libraries GL, GLU & GLUT
+
 from OpenGL.GL import * 
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
-
 
 def init():
     glClearColor(0, 0, 0, 1) #Setting color specified to GL_COLOR_BUFFER_BIT flag 

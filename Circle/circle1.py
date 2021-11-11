@@ -22,14 +22,12 @@ def MidpointCircleAlgo():
     plot(x+xc,y+yc)
     
     if (r > 0) : 
-        
         plot(x+xc,-y+yc)
         plot(y+xc,x+yc)
         plot(y+xc,x+yc)
         plot(-y+xc,x+yc)
  
     while x < y: 
-      
         x += 1
  
         if P <= 0:  
