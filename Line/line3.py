@@ -1,17 +1,17 @@
-#Symmetric DDA Line drawing Algorithm
+# Generalized Integer Bresenham Line Drawing Algorithm
 
 from OpenGL.GL import *
 from OpenGL.GLU import *
 from OpenGL.GLUT import *
 import sys
-from math import ceil, log10
 
-def ROUND(a):
-    return int(a + 0.5)
-
-def find_e(m):
-    n = ceil(log10(m)/log10(2))
-    return 2**(-n)
+def Sign(a):
+    if a > 0:
+        return 1
+    elif a < 0:
+        return -1
+    else:
+        return 0
 
 def init():
     glClearColor(1, 1, 1, 0)
@@ -19,27 +19,40 @@ def init():
 
 def draw():
     glClear(GL_COLOR_BUFFER_BIT)
-    SymmDDALineAlgo()
+    BresenLineAlgo()
     glFlush()
 
-def SymmDDALineAlgo():
-    dx = x2 - x1
-    dy = y2 - y1
-    m = max(abs(dx), abs(dy))
-    e = find_e(m)
-
-    Xinc = float(dx*e)
-    Yinc = float(dy*e)
-    x,y = x1, y1
+def BresenLineAlgo():
+    x = x1
+    y = y2
     
-    setPixel(ROUND(x),ROUND(y))
-    
-    while round(x) != x2 or round(y) != y2:
-        x += Xinc
-        y += Yinc
-        setPixel(ROUND(x),ROUND(y))
+    dx = abs(x2 - x1)
+    dy = abs(y2 - y1)
 
-    setPixel(ROUND(x),ROUND(y)) 
+    s1 = Sign(x2 - x1)
+    s2 = Sign(y2 - y1)
+
+    if dx > dy:
+        dx, dy = dy, dx
+        ic = 1
+    else:
+        ic = 0
+    
+    e = 2 * dy - dx
+
+    for i in range(1, dx + 1):
+        setPixel(x, y)
+        while e >= 0:
+            if ic == 1:
+                x += s1
+            else:
+                y += s2
+            e -= 2 * dx
+        if ic == 1:
+            y += s2
+        else:
+            x += s1
+        e += 2 * dy
 
 def setPixel(x, y):
     glColor3f(0.0, 1.0, 0.0)
@@ -54,6 +67,7 @@ def getInput():
     y1 = int(input("Enter y1: "))
     x2 = int(input("Enter x2: "))
     y2 = int(input("Enter y2: "))
+    
 
 def main():
     getInput()
@@ -61,9 +75,9 @@ def main():
     glutInitDisplayMode(GLUT_RGB)
     glutInitWindowSize(500, 500)
     glutInitWindowPosition(100, 100)
-    glutCreateWindow("Symmetric DDA Line Generation")
+    glutCreateWindow("Bresenham Line Generation")
     glutDisplayFunc(draw)
     init()
     glutMainLoop()
-
+    
 main()
